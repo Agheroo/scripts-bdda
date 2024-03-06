@@ -105,7 +105,7 @@ def insert_table(db_path, attributes, path, batch_size, table_name):
 def getTableColumns(db_size,table_name):
     attribute = ""
 
-    with open(str(db_size) + "/" + table_name.lower() + ".csv", "r", newline = "") as file:
+    with open("../"+str(db_size) + "/" + table_name.lower() + ".csv", "r", newline = "") as file:
         reader = csv.reader(file)
         l = len(next(reader))
         file.close()
@@ -132,7 +132,7 @@ elif(len(sys.argv[1]) == 0):
 
 # Appel à la fonction insert_table pour chaque fichier
 for table_name in table_names:
-    insert_table("database.db", getTableColumns("imdb-medium",table_name), 'imdb-medium/'+table_name.lower()+'.csv', batch_size, table_name)
+    insert_table("../database.db", getTableColumns("../imdb-medium",table_name), '../imdb-medium/'+table_name.lower()+'.csv', batch_size, table_name)
 
 
 print("Task took : " , time.time() - start_time ,"s")

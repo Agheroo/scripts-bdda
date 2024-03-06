@@ -2,7 +2,7 @@ import sqlite3
 import pymongo
 
 #connexion sqlite
-consqlite = sqlite3.connect('database.db')
+consqlite = sqlite3.connect('../database.db')
 csqlite = consqlite.cursor()
 
 #connexion pymongo
