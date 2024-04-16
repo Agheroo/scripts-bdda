@@ -129,12 +129,27 @@ def get_attributes(db_folder: str = "imdb-tiny",table_name: str = "") -> str:
 
     return attribute
 
-
+# Création des index pour le comparatif des performances
+conn = sqlite3.connect('database.db')
+cursor = conn.cursor()
+cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid ON Movies(mid)")
+cursor.execute("CREATE INDEX IF NOT EXISTS idx_pid ON Persons(pid)")
+cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid_genre ON Genres(mid, genre)")
+cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid_pid ON Directors(mid, pid)")
+cursor.execute("CREATE INDEX IF NOT EXISTS index ON Knownformovies(pid, mid)")
+cursor.execute("CREATE INDEX IF NOT EXISTS index ON Principals(mid, ordering, pid)")
+cursor.execute("CREATE INDEX IF NOT EXISTS index ON Professions(pid, jobName)")
+cursor.execute("CREATE INDEX IF NOT EXISTS index ON Ratings(mid)")
+cursor.execute("CREATE INDEX IF NOT EXISTS index ON Titles(mid, ordering)")
+cursor.execute("CREATE INDEX IF NOT EXISTS index ON Writers(mid, pid)")
+cursor.execute("CREATE INDEX IF NOT EXISTS index ON Characters(mid, pid)")
+conn.commit()
+conn.close()
 
 # Création des tables par SQL (dans une liste python pour faciliter la lecture)
 list_sql_creates = [
     "CREATE TABLE Movies (mid TEXT, titleType TEXT, primaryTitle TEXT, orginialTitle TEXT, isAdult INT, startYear INT, endYear INT, runtimeMinutes INT, PRIMARY KEY(mid))",
-    "CREATE TABLE Persons (pid TEXT, primaryName TEXT, birthYear INT, deathYear INT)",
+    "CREATE TABLE Persons (pid TEXT, primaryName TEXT, birthYear INT, deathYear INT, PRIMARY KEY(pid))",
     "CREATE TABLE Genres (mid TEXT, genre TEXT, PRIMARY KEY(mid, genre))",
     "CREATE TABLE Directors (mid TEXT, pid TEXT, PRIMARY KEY(mid, pid))",
     "CREATE TABLE Knownformovies (pid TEXT, mid TEXT, PRIMARY KEY(pid, mid))",
@@ -183,3 +198,5 @@ for table_name in table_names:
 
 # Affichage du temps pris pour écrire la DB entière
 print("Task took : " , time.time() - start_time ,"s")
+
+
