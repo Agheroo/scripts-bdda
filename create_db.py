@@ -13,8 +13,8 @@ def create_tables(db_name: str = "database.db", tables: list =  [""]):
     Note : The file needs to be non-existant before running this script, it will not rewrite over a file with the same name
 
     -----------------------
-
     @params
+    --
 
     db_name : The path of the database relative to the script
     tables : The "CREATE TABLE" list of all the tables of the concerned database
@@ -40,6 +40,7 @@ def insert_table(db_path: str = "database.db", attributes : str = "", csv_path :
 
     ---------------------
     @params
+    --
 
     db_path : The path of the database relative to the script
     attributes : The number of attributes of a table (using the "?, ?, ?, ... , ?" string format for SQL 'executemany' method)
@@ -49,6 +50,7 @@ def insert_table(db_path: str = "database.db", attributes : str = "", csv_path :
 
     ---------------------
     @returns
+    --
 
     None
     """
@@ -103,13 +105,14 @@ def get_attributes(db_folder: str = "imdb-tiny",table_name: str = "") -> str:
     | \n
     create_db.py \n
     db_folder \n
-        |   table1.csv\n
-        |   table2.csv \n
-        |   ...
+        |  table1.csv\n
+        |  table2.csv \n
+        | ...
 
     
     ---------------------
     @params
+    --
 
     db_folder : The folder in which all the CSV files are located
     table_name : The name of the current CSV file to get its attributes (the files all need to be in lowercase characters)
@@ -129,22 +132,6 @@ def get_attributes(db_folder: str = "imdb-tiny",table_name: str = "") -> str:
 
     return attribute
 
-# Création des index pour le comparatif des performances
-conn = sqlite3.connect('database.db')
-cursor = conn.cursor()
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid ON Movies(mid)")
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_pid ON Persons(pid)")
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid_genre ON Genres(mid, genre)")
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid_pid ON Directors(mid, pid)")
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_pid_mid ON Knownformovies(pid, mid)")
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid_ordering_pid ON Principals(mid, ordering, pid)")
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_pid_jobName ON Professions(pid, jobName)")
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid ON Ratings(mid)")
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid_ordering ON Titles(mid, ordering)")
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid_pid ON Writers(mid, pid)")
-cursor.execute("CREATE INDEX IF NOT EXISTS idx_mid_pid ON Characters(mid, pid)")
-conn.commit()
-conn.close()
 
 # Création des tables par SQL (dans une liste python pour faciliter la lecture)
 list_sql_creates = [
@@ -178,7 +165,7 @@ table_names = [
 
 # Ce script se lance avec un argument dans la console : c'est la taille du batch
 # Vérification lors du lancement du script s'il y a le batch_size, sinon met 1000 par défaut
-if (sys.argv[1] != 0 and str(sys.argv[1]) !='sql'):
+if (len(sys.argv[1]) != 0 and str(sys.argv[1]) !='sql'):
     batch_size = int(sys.argv[1])
 elif(len(sys.argv[1]) == 0):
     batch_size = 1000
@@ -193,7 +180,7 @@ create_tables("database.db", list_sql_creates)
 # Insertion des données dans les tables créées pour la DB 
 # Appel à la fonction insert_table pour chaque fichier
 for table_name in table_names:
-    insert_table("database.db", get_attributes("imdb-tiny",table_name), 'imdb-tiny/'+table_name.lower()+'.csv', batch_size, table_name)
+    insert_table("database.db", get_attributes("imdb-medium",table_name), 'imdb-medium/'+table_name.lower()+'.csv', batch_size, table_name)
 
 
 # Affichage du temps pris pour écrire la DB entière
