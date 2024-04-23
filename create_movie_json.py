@@ -7,16 +7,16 @@ from bson.json_util import dumps
 client = pymongo.MongoClient('127.0.0.1', 27017)
 db = client["mongo-db"]
 
-movies = db["movies"]
-
+movies = db["Movies"]
+print(movies.find_one())
 #Création des index pour optimiser les jointures
 movies.create_index([("mid",pymongo.ASCENDING)])
-db["ratings"].create_index([("mid",pymongo.ASCENDING)])
-db["principals"].create_index([("pid",pymongo.ASCENDING)])
-db["principals"].create_index([("mid",pymongo.ASCENDING)])
-db["persons"].create_index([("pid",pymongo.ASCENDING)])
-db["genres"].create_index([("mid",pymongo.ASCENDING)])
-db["genres"].create_index([("genre",pymongo.ASCENDING)])
+db["Ratings"].create_index([("mid",pymongo.ASCENDING)])
+db["Principals"].create_index([("pid",pymongo.ASCENDING)])
+db["Principals"].create_index([("mid",pymongo.ASCENDING)])
+db["Persons"].create_index([("pid",pymongo.ASCENDING)])
+db["Genres"].create_index([("mid",pymongo.ASCENDING)])
+db["Genres"].create_index([("genre",pymongo.ASCENDING)])
 
 
 
@@ -25,7 +25,7 @@ pipeline = [
     #Chargement de movies pour les jointures
     {
         "$lookup": {
-            "from": "movies",
+            "from": "Movies",
             "localField": "mid",
             "foreignField": "mid",
             "as": "movie"
@@ -40,7 +40,7 @@ pipeline = [
     {
         "$lookup":
         {
-            "from": "principals",
+            "from": "Principals",
             "localField": "mid",
             "foreignField": "mid",
             "as": "principals"
@@ -61,7 +61,7 @@ pipeline = [
     {
         "$lookup":
         {
-            "from": "persons",
+            "from": "Persons",
             "localField": "principals.pid",
             "foreignField": "pid",
             "as": "casting"
@@ -75,7 +75,7 @@ pipeline = [
     {
         "$lookup":
         {
-            "from": "ratings",
+            "from": "Ratings",
             "localField": "mid",
             "foreignField": "mid",
             "as": "rating"
@@ -89,7 +89,7 @@ pipeline = [
     {
         "$lookup":
         {
-            "from": "genres",
+            "from": "Genres",
             "localField": "mid",
             "foreignField": "mid",
             "as": "genre"
@@ -126,7 +126,7 @@ pipeline = [
     #Création de l'objet à charger en JSON
     {
         "$project": {
-            "_id":0,
+            "_id":0,    # 0 Signifie que _id ne sera pas dans le résultat de la requête
             "originalTitle":1,
             "startYear":1,
             "averageRating":1,
@@ -152,7 +152,12 @@ pipeline = [
 
 
 # Exécuter l'agrégation
-result = movies.aggregate(pipeline)
+try:
+    # Exécuter l'agrégation
+    result = movies.aggregate(pipeline)
+    # Afficher les résultats ou effectuer d'autres opérations ici
+except Exception as e:
+    print("Une erreur s'est produite lors de l'exécution de l'agrégation :", e)
 
 # Convertir le résultat en JSON
 json_result = dumps(result)

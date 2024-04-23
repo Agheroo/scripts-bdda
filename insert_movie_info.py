@@ -13,3 +13,5 @@ with open('movie_info.json', 'r') as f:
 
 # Insérer les documents dans la collection "movies"
 result = movie_info.insert_many(movies_list)
+
+
