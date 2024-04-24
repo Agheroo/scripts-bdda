@@ -8,16 +8,6 @@ client = pymongo.MongoClient('127.0.0.1', 27017)
 db = client["mongo-db"]
 
 movies = db["Movies"]
-print(movies.find_one())
-#Création des index pour optimiser les jointures
-movies.create_index([("mid",pymongo.ASCENDING)])
-db["Ratings"].create_index([("mid",pymongo.ASCENDING)])
-db["Principals"].create_index([("pid",pymongo.ASCENDING)])
-db["Principals"].create_index([("mid",pymongo.ASCENDING)])
-db["Persons"].create_index([("pid",pymongo.ASCENDING)])
-db["Genres"].create_index([("mid",pymongo.ASCENDING)])
-db["Genres"].create_index([("genre",pymongo.ASCENDING)])
-
 
 
 pipeline = [
@@ -106,16 +96,17 @@ pipeline = [
     {
         "$group":{
             "_id": "$movie._id",
-            "originalTitle": { "$last": "$movie.originalTitle" },
-            "startYear": { "$last": "$movie.startYear" },
-            "averageRating": { "$last": "$rating.averageRating" },
-            "numVotes":{"$last":"$rating.numVotes"},
+            "mid" : {"$last" : "$movie.mid"},
+            "primaryTitle": { "$last" : "$movie.primaryTitle" },
+            "startYear": { "$last" : "$movie.startYear" },
+            "averageRating": { "$last" : "$rating.averageRating" },
+            "numVotes":{"$last" : "$rating.numVotes"},
             "genre": { "$addToSet": "$genre.genre" },
             "actors":{ "$addToSet": {    #Rajout des acteurs dans la liste du casting
                     "$cond": [{ "$eq": [ "$principals.category", "actor" ] }, "$casting.primaryName", None]
                 }
             }, 
-            "directors": { "$addToSet": {
+            "directors": { "$addToSet": { #Rajout des directeurs dans la liste du casting
                     "$cond": [{ "$eq": [ "$principals.category", "director" ] }, "$casting.primaryName", None]
                 }
             }
@@ -127,7 +118,8 @@ pipeline = [
     {
         "$project": {
             "_id":0,    # 0 Signifie que _id ne sera pas dans le résultat de la requête
-            "originalTitle":1,
+            "mid" : 1,
+            "primaryTitle":1,
             "startYear":1,
             "averageRating":1,
             "numVotes":1,

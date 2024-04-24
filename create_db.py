@@ -6,7 +6,7 @@ from colorama import Fore, Style
 import sys
 
 
-def create_tables(db_name: str = "database.db", tables: list =  [""]):
+def create_tables(db_name: str = "database.db", tables: list =  [""]) -> None:
     """Creates the database
     ---------------------
     
@@ -18,6 +18,12 @@ def create_tables(db_name: str = "database.db", tables: list =  [""]):
 
     db_name : The path of the database relative to the script
     tables : The "CREATE TABLE" list of all the tables of the concerned database
+
+    -----------------------
+    @returns
+    --
+
+    None
     """
 
     #Connection to the DB with sqlite
@@ -32,7 +38,7 @@ def create_tables(db_name: str = "database.db", tables: list =  [""]):
     conn.commit()
     conn.close()
 
-def insert_table(db_path: str = "database.db", attributes : str = "", csv_path : str = "", batch_size : int = 1000, table_name : str = ""):
+def insert_table(db_path: str = "database.db", attributes : str = "", csv_path : str = "", batch_size : int = 1000, table_name : str = "") -> None:
     """Reads a csv file to insert its data into a database table with the same name
     ---------------------
     
@@ -97,7 +103,7 @@ def get_attributes(db_folder: str = "imdb-tiny",table_name: str = "") -> str:
     """Gets all the attributes of a table in a csv file
     ---------------------
     
-    Note : The attributes are using the "?, ?, ?, ... , ?" string format for SQL 'executemany' method
+    Note : The attributes are using the "?, ?, ?, ... , ?" string format for SQL 'executemany()' method
 
     All the CSV files should be in a folder and this script should be out of this folder i.e.  \n
 
@@ -116,6 +122,12 @@ def get_attributes(db_folder: str = "imdb-tiny",table_name: str = "") -> str:
 
     db_folder : The folder in which all the CSV files are located
     table_name : The name of the current CSV file to get its attributes (the files all need to be in lowercase characters)
+
+    ---------------------
+    @returns
+    --
+
+    attribute : Stands for the string \"(?, ?, ... , ?)\" that is used for SQL 'executemany()' method
     """ 
 
     attribute = ""
