@@ -131,13 +131,10 @@ def join_movie(movie : dict = {}) -> dict:
         "runtimeMinutes": movie["runtimeMinutes"],
         "primaryTitle": movie["primaryTitle"]
     }
-    print("")
     movie = join_ratings_movie(movie)
     movie = join_genres_movie(movie)
-    
-    start = time.time()
     movie = join_casting_movie(movie)
-    print(time.time() - start)
+
 
     return movie
 
