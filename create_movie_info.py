@@ -184,5 +184,5 @@ def create_movie_info(collection_name : str = "Movie_info", batch_size : int = 1
     print(Style.RESET_ALL)
 
   
-create_movie_info("mongo-db", "Movie_info",1000)
+create_movie_info("Movie_info",1000)
 client.close()
