@@ -6,6 +6,17 @@ cur = connection.cursor()
 
 
 def answer(i):
+    """#### Answers question i in the question list (global)
+
+    ---------------------
+
+    #### @params
+
+    i : The index of the question (starts at index 1)
+    
+
+
+    """
     global questions
     print("Question " + str(i) + " : ")
     res = cur.execute(questions[i-1])

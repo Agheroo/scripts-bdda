@@ -12,14 +12,14 @@ from progress.bar import Bar
 
 
 def remplir_collection(dbpath : str = "database.db", mongodb_name : str = "mongo-db", nomtable : str = "", batch_size : int = 1000) -> None:
-    """ Fills a mongodb collection with a given database file of the same table name
+    """#### Fills a mongodb collection with a given database file of the same table name
     ---------------------
     
-    Note : The client is created with the default localhost/port usage for mongodb
+    ##### Note : 
+    - The client is created with the default localhost/port usage for mongodb
 
     ---------------------
-    @params
-    --
+    #### @params
 
     mongodb_name : The name of the mongodb database to connect to
     dbpath : The path of the database relative to the script
@@ -27,8 +27,7 @@ def remplir_collection(dbpath : str = "database.db", mongodb_name : str = "mongo
     batch_size : The size of the batch for continuous requests to prevent memory overflow
 
     ---------------------
-    @returns
-    --
+    #### @returns
 
     None
     """
@@ -94,25 +93,23 @@ def remplir_collection(dbpath : str = "database.db", mongodb_name : str = "mongo
 
 
 def remplir_bdd(dbpath : str = "database.db", mongodb_name : str = "mongo-db", batch_size : int = 1000) -> None:
-   """ Fills a mongodb database with a given database file
+   """#### Fills a mongodb database with a given database file
     ---------------------
     
-    Note : The client is created with the default localhost/port usage for mongodb
+    ##### Note :
+    - The client is created with the default localhost/port usage for mongodb
 
     ---------------------
-    @params
-    --
+    #### @params
 
     mongodb_name : The name of the mongodb database to connect to
     dbpath : The path of the database relative to the script
     batch_size : The size of the batch for continuous requests to prevent memory overflow
 
     ---------------------
-    @returns
-    --
+    #### @returns
 
     None
-   
    """
    consqlite = sqlite3.connect(dbpath)
    csqlite = consqlite.cursor()

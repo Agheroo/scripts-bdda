@@ -7,21 +7,20 @@ import sys
 
 
 def create_tables(db_name: str = "database.db", tables: list =  [""]) -> None:
-    """Creates the database
+    """#### Creates the database
     ---------------------
     
-    Note : The file needs to be non-existant before running this script, it will not rewrite over a file with the same name
+    ##### Note : 
+    - The file needs to be non-existant before running this script, it will not rewrite over a file with the same name
 
     -----------------------
-    @params
-    --
+    #### @params
 
     db_name : The path of the database relative to the script
     tables : The "CREATE TABLE" list of all the tables of the concerned database
 
     -----------------------
-    @returns
-    --
+    #### @returns
 
     None
     """
@@ -39,14 +38,14 @@ def create_tables(db_name: str = "database.db", tables: list =  [""]) -> None:
     conn.close()
 
 def insert_table(db_path: str = "database.db", attributes : str = "", csv_path : str = "", batch_size : int = 1000, table_name : str = "") -> None:
-    """Reads a csv file to insert its data into a database table with the same name
+    """#### Reads a csv file to insert its data into a database table with the same name
     ---------------------
     
-    Note : The attributes are using the "?, ?, ?, ... , ?" string format for SQL 'executemany' method
+    ##### Note : 
+    - The attributes are using the "?, ?, ?, ... , ?" string format for SQL 'executemany' method
 
     ---------------------
-    @params
-    --
+    #### @params
 
     db_path : The path of the database relative to the script
     attributes : The number of attributes of a table (using the "?, ?, ?, ... , ?" string format for SQL 'executemany' method)
@@ -55,8 +54,7 @@ def insert_table(db_path: str = "database.db", attributes : str = "", csv_path :
     table_name : The name of the table that needs to be read
 
     ---------------------
-    @returns
-    --
+    #### @returns
 
     None
     """
@@ -100,12 +98,12 @@ def insert_table(db_path: str = "database.db", attributes : str = "", csv_path :
     conn.close()
 
 def get_attributes(db_folder: str = "imdb-tiny",table_name: str = "") -> str:
-    """Gets all the attributes of a table in a csv file
+    """#### Gets all the attributes of a table in a csv file
     ---------------------
     
-    Note : The attributes are using the "?, ?, ?, ... , ?" string format for SQL 'executemany()' method
-
-    All the CSV files should be in a folder and this script should be out of this folder i.e.  \n
+    ##### Note :
+    - The attributes are using the "?, ?, ?, ... , ?" string format for SQL 'executemany()' method
+    - All the CSV files should be in a folder and this script should be out of this folder i.e.  \n
 
     ... \n
     | \n
@@ -117,15 +115,13 @@ def get_attributes(db_folder: str = "imdb-tiny",table_name: str = "") -> str:
 
     
     ---------------------
-    @params
-    --
+    #### @params
 
     db_folder : The folder in which all the CSV files are located
     table_name : The name of the current CSV file to get its attributes (the files all need to be in lowercase characters)
 
     ---------------------
-    @returns
-    --
+    #### @returns
 
     attribute : Stands for the string \"(?, ?, ... , ?)\" that is used for SQL 'executemany()' method
     """ 
