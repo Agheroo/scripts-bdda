@@ -135,7 +135,6 @@ def join_movie(movie : dict = {}) -> dict:
     movie = join_genres_movie(movie)
     movie = join_casting_movie(movie)
 
-
     return movie
 
 
