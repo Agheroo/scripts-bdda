@@ -1,2 +1,2 @@
-# bdda
-Repo pour les scripts python de BDDA (tous les scripts sont dans le même dossier que les dossiers imdb et le .db)
+# SCRIPTS BDA
+Tous les scripts utilisés pour le TP sont documentés et commentés lors des étapes clé du code
