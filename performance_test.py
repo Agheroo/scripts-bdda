@@ -47,6 +47,7 @@ def compare_performances(mongodb_name : str = "mongo-db", sample_size : int = 20
         bar.finish()
     print("Task with joins took : " + str(time.time() - start))
 
+    start = time.time()
     with Bar(f'Processing JSON find task...', max=sample_size) as bar:  # Progress bar to track progress 
         for movie_id in movies:
             
@@ -58,10 +59,12 @@ def compare_performances(mongodb_name : str = "mongo-db", sample_size : int = 20
 
 
 
-    start = time.time()
+    
 
 
     client.close()
 
 
 compare_performances("mongo-db",1000)
+compare_performances("mongo-db",2500)
+compare_performances("mongo-db",5000)
